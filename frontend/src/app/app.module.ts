@@ -5,12 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Pg404Component } from './pg404/pg404.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { PgListarComponent } from './pg-listar/pg-listar.component';
+import { PgCadastrarComponent } from './pg-cadastrar/pg-cadastrar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     Pg404Component,
-    NavbarComponent
+    NavbarComponent,
+    PgListarComponent,
+    PgCadastrarComponent
   ],
   imports: [
     BrowserModule,
