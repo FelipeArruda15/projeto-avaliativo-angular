@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Estado } from '../models/Estado';
 import { EstadosService } from '../services/estados.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Municipio } from '../models/Municipio';
 
 @Component({
   selector: 'app-pg-cadastrar',
@@ -14,10 +15,13 @@ export class PgCadastrarComponent implements OnInit {
 
   usuarioForm = new FormGroup({
     estadoSelecionado: new FormControl(),
-    municipioSelecionado: new FormControl()
+    municipioSelecionado: new FormControl(),
+    nomeUsuario: new FormControl(),
+    emailUsuario: new FormControl(),
+    telUsuario: new FormControl()
   });
 
-  cidadesEstadoSelecionado = [] as any[];
+  cidadesEstadoSelecionado = [] as Municipio[];
 
   constructor(private servico:EstadosService) { }
 
@@ -26,7 +30,13 @@ export class PgCadastrarComponent implements OnInit {
   }
 
   cadastrar = () => {
-
+    for (let c of this.usuarioForm.value.emailUsuario) {
+      if ("[!#$%^&*()+-=[]{};':\"\\|,<>?]/".includes(c)) {
+        alert("EMAIL INVÁLIDO!")
+        return;
+      }
+    }
+    
   }
 
   updateMunicipios = () => {
@@ -36,6 +46,6 @@ export class PgCadastrarComponent implements OnInit {
 
   carregarEstados = () => {
     this.servico.getEstados()
-    .subscribe(retorno => this.estados = retorno);    
+    .subscribe(retorno => this.estados = retorno); 
   }
 }

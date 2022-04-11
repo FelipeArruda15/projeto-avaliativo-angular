@@ -9,6 +9,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { PgListarComponent } from './pg-listar/pg-listar.component';
 import { PgCadastrarComponent } from './pg-cadastrar/pg-cadastrar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
