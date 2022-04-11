@@ -1,1 +1,24 @@
-<p>pg-cadastrar works!</p>
+<form [formGroup]="usuarioForm" class="form-usuarios">
+    <h2>Cadastrar Usuário</h2>
+
+    <label class="form__label-usuarios">Nome</label>
+    <input type="text" name="nomeUsuario" formControlName="nomeUsuario" class="form-control" placeholder="Nome">
+    
+    <label class="form__label-usuarios">Email</label>
+    <input type="email" name="emailUsuario" formControlName="emailUsuario" class="form-control" placeholder="exemplo@email.com">
+    
+    <label class="form__label-usuarios">Estado</label>
+    <select class="form-select" name="estadoSelecionado" formControlName="estadoSelecionado" (change)="updateMunicipios()">
+        <option *ngFor="let e of estados" value="{{e.id}}">{{e.nome}}</option>
+    </select>
+    
+    <label class="form__label-usuarios">Cidade</label>
+    <select class="form-select" name="municipioSelecionado" formControlName="municipioSelecionado">
+        <option *ngFor="let m of cidadesEstadoSelecionado" value="{{m.id}}">{{m.nome}}</option>
+    </select>
+
+    <label class="form__label-usuarios">Telefone</label>
+    <input type="tel" name="telUsuario" formControlName="telUsuario"  class="form-control" placeholder="(47) 91234-1234" mask="">
+    
+    <input type="button" class="btn btn-outline-primary" (click)="cadastrar()" value="Cadastrar!">
+</form>
