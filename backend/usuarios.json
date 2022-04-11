@@ -1,0 +1,11 @@
+{
+    "usuarios": [
+        {
+            "nome": "Vinícius",
+            "email": "vinicius@email.com",
+            "estado": "Santa Catarina",
+            "cidade": "Timbó",
+            "telefone": "47984158284"
+        }
+    ]
+}
