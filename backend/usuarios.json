@@ -1,11 +1,20 @@
 {
-    "usuarios": [
-        {
-            "nome": "Vinícius",
-            "email": "vinicius@email.com",
-            "estado": "Santa Catarina",
-            "cidade": "Timbó",
-            "telefone": "47984158284"
-        }
-    ]
+  "usuarios": [
+      {
+      "id": 1,
+      "nome": "Vinícius",
+      "email": "vinicius@email.com",
+      "estado": "Santa Catarina",
+      "cidade": "Timbó",
+      "telefone": "47984158284"
+    },
+    {
+      "id": 2,
+      "nome": "aaaa",
+      "email": "aaa@aa.aa",
+      "estado": "Paraná",
+      "cidade": null,
+      "telefone": "12412514214"
+    }
+  ]
 }
