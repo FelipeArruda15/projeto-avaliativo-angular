@@ -11,3 +11,13 @@
 .form__label-usuarios {
     text-align: left;
 }
+
+.table-usuarios {
+    width: 90vw;
+}
+
+.btns__selected-usuarios {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

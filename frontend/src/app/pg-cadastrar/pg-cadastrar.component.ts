@@ -15,16 +15,20 @@ export class PgCadastrarComponent implements OnInit {
   usuarios = [] as Usuario[];
   estados = [] as Estado[];
 
+  iUsuarioSelecionado:number = -1;
+  selecionado:boolean = false;
+
   usuarioForm = new FormGroup({
-    estadoSelecionado: new FormControl(),
-    municipioSelecionado: new FormControl(),
-    nomeUsuario: new FormControl(),
-    emailUsuario: new FormControl(),
-    telUsuario: new FormControl()
+    estado: new FormControl(),
+    cidade: new FormControl(),
+    nome: new FormControl(),
+    email: new FormControl(),
+    telefone: new FormControl()
   });
   cidadesEstadoSelecionado = [] as Municipio[];
 
   success:boolean = false;
+  successMsg:string = '';
   error:boolean = false;
   errorMsg:string = '';
 
@@ -32,37 +36,103 @@ export class PgCadastrarComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarEstados();
+    this.carregarUsuarios();
+  }
+
+  selecionar = async (i:number) => {
+    this.iUsuarioSelecionado = i;
+
+    let usuario = this.usuarios[i];
+
+    this.usuarioForm.get('estado')?.setValue(usuario.estado.id + "~" + usuario.estado.nome);
+    this.usuarioForm.get('nome')?.setValue(usuario.nome);
+    this.usuarioForm.get('email')?.setValue(usuario.email);
+    this.usuarioForm.get('telefone')?.setValue(usuario.telefone);
+
+    await this.updateMunicipios();
+
+    this.usuarioForm.get('cidade')?.setValue(usuario.cidade);
+    this.selecionado = true;
+  }
+
+  alterar = () => {
+    this.resetarAlert();
+
+    let usuario = this.getUserFromForm();
+    usuario.id = this.usuarios[this.iUsuarioSelecionado].id;
+
+    if (!this.validarDados(usuario)) return;    
+    
+    this.usuariosService.alterar(usuario).subscribe(r => this.usuarios[this.iUsuarioSelecionado] = r);
+    this.success = true;
+    this.successMsg = 'Alterado!';
   }
 
   cadastrar = () => {
-    let email = this.usuarioForm.value.emailUsuario;
-    let telefone = this.usuarioForm.value.telUsuario;
-
     this.resetarAlert();
-
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-      this.error = true;
-      this.errorMsg = 'Email inválido!';
-      return;
-    }
-
-    if (telefone.length < 11) {
-      this.error = true;
-      this.errorMsg = 'Telefone inválido!';
-      return;
-    }
-
-    let usuario = new Usuario();
-    usuario.id = 0;
-    usuario.nome = this.usuarioForm.value.nomeUsuario;
-    usuario.telefone = telefone;
-    usuario.email = email;
-    usuario.estado = this.usuarioForm.value.estadoSelecionado.split("~")[1];
-    usuario.cidade = this.usuarioForm.value.municipioSelecionado;
     
-    this.usuariosService.cadastrar(usuario).subscribe(r => console.log(r));
+    let usuario = this.getUserFromForm();
+
+    if (!this.validarDados(usuario)) return;
+    
+    this.usuariosService.cadastrar(usuario).subscribe(u => this.usuarios.push(u));
 
     this.success = true;
+    this.successMsg = 'Cadastrado!';
+  }
+
+  getUserFromForm = ():Usuario => {
+    let usuario = new Usuario();
+    usuario.id = 0;
+    usuario.nome = this.usuarioForm.value.nome;
+    usuario.telefone = this.usuarioForm.value.telefone;
+    usuario.email = this.usuarioForm.value.email;
+    usuario.estado = this.usuarioForm.value.estado ? {
+      nome: this.usuarioForm.value.estado.split("~")[1],
+      id: this.usuarioForm.value.estado.split("~")[0]
+    } : {} as Estado;
+    usuario.cidade = this.usuarioForm.value.cidade;
+    return usuario;
+  }
+
+  validarDados = (usuario:Usuario):boolean => {
+    if (!usuario.nome) {
+      this.error = true;
+      this.errorMsg = 'Preencha o nome!';
+      return false;
+    }
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(usuario.email)){
+      this.error = true;
+      this.errorMsg = 'Email inválido!';
+      return false;
+    }
+
+    if (Object.entries(usuario.estado).length == 0) {
+      this.error = true;
+      this.errorMsg = 'Selecione um estado!';
+      return false;
+    }
+    if (!usuario.cidade) {
+      this.error = true;
+      this.errorMsg = 'Selecione uma cidade!';
+      return false;
+    }
+
+    if (this.usuarios.filter(u => u.nome == usuario.nome && u.id != usuario.id).length > 0) {
+      console.log(usuario.id);
+      
+      this.error = true;
+      this.errorMsg = 'Nome já cadastrado!';
+      return false;
+    }
+
+    if (!usuario.telefone || usuario.telefone.length < 11) {
+      this.error = true;
+      this.errorMsg = 'Telefone inválido!';
+      return false;
+    }
+    return true;
   }
 
   resetarAlert = () => {
@@ -72,14 +142,23 @@ export class PgCadastrarComponent implements OnInit {
   }
 
   updateMunicipios = () => {
-    let estadoSelecionado = this.usuarioForm.value.estadoSelecionado.split("~")[0];
+    return new Promise<void>(resolve => {
+      let estadoSelecionado = this.usuarioForm.value.estado.split("~")[0];
 
-    this.estadosService.getMunicipios(estadoSelecionado)
-    .subscribe(retorno => this.cidadesEstadoSelecionado = retorno);
+      this.estadosService.getMunicipios(estadoSelecionado)
+      .subscribe(retorno => {
+        this.cidadesEstadoSelecionado = retorno;
+        resolve();
+      });
+    })
   }
 
   carregarEstados = () => {
     this.estadosService.getEstados()
     .subscribe(retorno => this.estados = retorno); 
+  }
+
+  carregarUsuarios = () => {
+    this.usuariosService.getAll().subscribe(retorno => this.usuarios = retorno);
   }
 }

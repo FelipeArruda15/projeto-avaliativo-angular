@@ -13,4 +13,12 @@ export class UsuariosService {
   cadastrar(u:Usuario):Observable<Usuario> {
     return this.http.post<Usuario>('http://localhost:3000/usuarios', u);
   }
+
+  alterar(u:Usuario):Observable<Usuario> {
+    return this.http.put<Usuario>(`http://localhost:3000/usuarios/${u.id}`, u);
+  }
+
+  getAll():Observable<Usuario[]> {
+    return this.http.get<Usuario[]>('http://localhost:3000/usuarios');
+  }
 }

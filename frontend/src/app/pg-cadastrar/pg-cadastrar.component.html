@@ -1,50 +1,59 @@
-<form [formGroup]="usuarioForm" class="form-usuarios" ngNativeValidate (submit)="cadastrar()">
-    <app-alert *ngIf="success">Cadastrado!</app-alert>
-    <app-alert-error *ngIf="error">{{errorMsg}}</app-alert-error>
-   
-    <h2>Cadastrar Usuário</h2>
+<main>
+    <form [formGroup]="usuarioForm" class="form-usuarios">
+        <app-alert *ngIf="success">{{successMsg}}</app-alert>
+        <app-alert-error *ngIf="error">{{errorMsg}}</app-alert-error>
+    
+        <h2>Cadastrar Usuário</h2>
 
-    <label class="form__label-usuarios">Nome</label>
-    <input type="text" mask="S** S** S** S** S**" name="nomeUsuario" required minlength="3" formControlName="nomeUsuario" class="form-control" placeholder="Nome">
-    
-    <label class="form__label-usuarios">Email</label>
-    <input type="email" name="emailUsuario" required formControlName="emailUsuario" class="form-control" placeholder="exemplo@email.com">
-    
-    <label class="form__label-usuarios">Estado</label>
-    <select class="form-select" name="estadoSelecionado" required formControlName="estadoSelecionado" (change)="updateMunicipios()">
-        <option *ngFor="let e of estados" value="{{e.id}}~{{e.nome}}">{{e.nome}}</option>
-    </select>
-    
-    <label class="form__label-usuarios">Cidade</label>
-    <select class="form-select" name="municipioSelecionado" required formControlName="municipioSelecionado">
-        <option *ngFor="let m of cidadesEstadoSelecionado">{{m.nome}}</option>
-    </select>
+        <label class="form__label-usuarios">Nome</label>
+        <input type="text" mask="S* S* S* S* S*" name="nome" formControlName="nome" class="form-control" placeholder="Nome">
+        
+        <label class="form__label-usuarios">Email</label>
+        <input type="email" name="email" formControlName="email" class="form-control" placeholder="exemplo@email.com">
+        
+        <label class="form__label-usuarios">Estado</label>
+        <select class="form-select" name="estado" formControlName="estado" (change)="updateMunicipios()">
+            <option *ngFor="let e of estados" value="{{e.id}}~{{e.nome}}">{{e.nome}}</option>
+        </select>
+        
+        <label class="form__label-usuarios">Cidade</label>
+        <select class="form-select" name="cidade" formControlName="cidade">
+            <option *ngFor="let m of cidadesEstadoSelecionado" value="{{m.nome}}">{{m.nome}}</option>
+        </select>
 
-    <label class="form__label-usuarios">Telefone</label>
-    <input type="text" minlength="12" mask="(00) 00000-0000" required name="telUsuario" formControlName="telUsuario" class="form-control" placeholder="(47) 91234-1234">
-    
-    <button class="btn btn-outline-primary">Cadastrar!</button>
-</form>
+        <label class="form__label-usuarios">Telefone</label>
+        <input type="text" mask="(00) 00000-0000" name="telefone" formControlName="telefone" class="form-control" placeholder="(47) 91234-1234">
+        
+        <button (click)="cadastrar()" class="btn btn-outline-primary" *ngIf="!selecionado">Cadastrar!</button>
+        <div class="btns__selected-usuarios" *ngIf="selecionado">
+            <button class="btn btn-outline-primary">Remover!</button>
+            <button (click)="alterar()" class="btn btn-outline-primary">Alterar!</button>
+            <button (click)="selecionado = false" class="btn btn-outline-primary">Cancelar!</button>
+        </div>
+    </form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Estado</th>
-            <th>Cidade</th>
-            <th>Telefone</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let u of usuarios">
-            <td>{{u.id}}</td>
-            <td>{{u.nome}}</td>
-            <td>{{u.email}}</td>
-            <td>{{u.estado}}</td>
-            <td>{{u.cidade}}</td>
-            <td>{{u.telefone}}</td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table table-usuarios">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th>Cidade</th>
+                <th>Telefone</th>
+                <th>Selecionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of usuarios; let i = index">
+                <td>{{u.id}}</td>
+                <td>{{u.nome}}</td>
+                <td>{{u.email}}</td>
+                <td>{{u.estado.nome}}</td>
+                <td>{{u.cidade}}</td>
+                <td>{{u.telefone | mask: '(00) 00000-0000'}}</td>
+                <td><button (click)="selecionar(i)" class="btn btn-outline-primary">Selecionar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
