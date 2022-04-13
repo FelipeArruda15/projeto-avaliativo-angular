@@ -66,6 +66,7 @@ export class PgCadastrarComponent implements OnInit {
     this.usuariosService.alterar(usuario).subscribe(r => this.usuarios[this.iUsuarioSelecionado] = r);
     this.success = true;
     this.successMsg = 'Alterado!';
+    this.selecionado = false;
   }
 
   cadastrar = () => {
@@ -79,6 +80,17 @@ export class PgCadastrarComponent implements OnInit {
 
     this.success = true;
     this.successMsg = 'Cadastrado!';
+  }
+
+  remover = () => {
+    this.resetarAlert();
+    
+    this.usuariosService.remover(this.usuarios[this.iUsuarioSelecionado].id).subscribe();
+    this.usuarios.splice(this.iUsuarioSelecionado, 1);
+
+    this.success = true;
+    this.successMsg = 'Removido!';
+    this.selecionado = false;
   }
 
   getUserFromForm = ():Usuario => {
@@ -120,8 +132,6 @@ export class PgCadastrarComponent implements OnInit {
     }
 
     if (this.usuarios.filter(u => u.nome == usuario.nome && u.id != usuario.id).length > 0) {
-      console.log(usuario.id);
-      
       this.error = true;
       this.errorMsg = 'Nome já cadastrado!';
       return false;

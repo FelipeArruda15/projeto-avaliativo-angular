@@ -18,6 +18,10 @@ export class UsuariosService {
     return this.http.put<Usuario>(`http://localhost:3000/usuarios/${u.id}`, u);
   }
 
+  remover(id:number):Observable<void> {
+    return this.http.delete<void>(`http://localhost:3000/usuarios/${id}`);
+  }
+
   getAll():Observable<Usuario[]> {
     return this.http.get<Usuario[]>('http://localhost:3000/usuarios');
   }

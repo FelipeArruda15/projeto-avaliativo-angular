@@ -26,7 +26,7 @@
         
         <button (click)="cadastrar()" class="btn btn-outline-primary" *ngIf="!selecionado">Cadastrar!</button>
         <div class="btns__selected-usuarios" *ngIf="selecionado">
-            <button class="btn btn-outline-primary">Remover!</button>
+            <button (click)="remover()" class="btn btn-outline-primary">Remover!</button>
             <button (click)="alterar()" class="btn btn-outline-primary">Alterar!</button>
             <button (click)="selecionado = false" class="btn btn-outline-primary">Cancelar!</button>
         </div>
