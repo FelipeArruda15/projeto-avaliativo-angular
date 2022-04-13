@@ -1,1 +1,17 @@
-<p>pg-estatisticas works!</p>
+<main>
+    <h2>Estatísticas</h2>
+    <table class="table table-estatisticas">
+        <thead>
+            <tr>
+                <th>Estado</th>
+                <th>Quantidade de pessoas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let e of estados">
+                <td>{{e.nome}}</td>
+                <td>{{quantidadePessoasEstados.get(e.id)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</main>

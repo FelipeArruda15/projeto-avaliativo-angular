@@ -43,6 +43,17 @@
       },
       "cidade": "Timbó",
       "telefone": "99999999999"
+    },
+    {
+      "id": 6,
+      "nome": "cleito",
+      "email": "rasta@aa.aa",
+      "estado": {
+        "nome": "São Paulo",
+        "id": "35"
+      },
+      "cidade": "Campinas",
+      "telefone": "47998877787"
     }
   ]
 }

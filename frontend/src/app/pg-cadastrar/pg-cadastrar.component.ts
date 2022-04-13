@@ -131,7 +131,8 @@ export class PgCadastrarComponent implements OnInit {
       return false;
     }
 
-    if (this.usuarios.filter(u => u.nome == usuario.nome && u.id != usuario.id).length > 0) {
+    if (this.usuarios.filter(u => u.nome.toLowerCase() == usuario.nome.toLowerCase()
+         && u.id != usuario.id).length > 0) {
       this.error = true;
       this.errorMsg = 'Nome já cadastrado!';
       return false;
