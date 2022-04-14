@@ -42,9 +42,9 @@ npm i
 ```bash
 npx json-server usuarios.json
 ```
- - Com o servidor do backend funcionando, podemos iniciar nosso frontend. Para isso, vamos acessar a pasta do frontend com o comando:
+ - Com o servidor do backend funcionando, podemos iniciar nosso frontend. Para isso, vamos abrir outro terminal na pasta do projeto e acessar a pasta do frontend com o comando:
 ```bash
-cd ../frontend
+cd frontend
 ```
  - Neste momento, iremos instalar as dependencias do frontend utilizando o comando:
 ```bash
