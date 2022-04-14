@@ -21,39 +21,6 @@
       },
       "cidade": "Timbó",
       "telefone": "09247937502"
-    },
-    {
-      "id": 4,
-      "nome": "ViniciusSeg",
-      "email": "viniseg@email.com",
-      "estado": {
-        "nome": "Pernambuco",
-        "id": "26"
-      },
-      "cidade": "Araçoiaba",
-      "telefone": "13513527675"
-    },
-    {
-      "id": 5,
-      "nome": "ViniciusERRADO",
-      "email": "vinisegERRADO@email.com",
-      "estado": {
-        "nome": "Santa Catarina",
-        "id": "42"
-      },
-      "cidade": "Timbó",
-      "telefone": "99999999999"
-    },
-    {
-      "id": 6,
-      "nome": "cleito",
-      "email": "rasta@aa.aa",
-      "estado": {
-        "nome": "São Paulo",
-        "id": "35"
-      },
-      "cidade": "Campinas",
-      "telefone": "47998877787"
     }
   ]
 }
